@@ -107,4 +107,7 @@ namespace hefur
     "", "reverse-proxy-from",
     "IP to allow ip parsing from for reverse proxy, '0.0.0.0' or '::' to allow from all",
     "");
+
+  const bool & DISABLE_V2 = *mo::addSwitch(
+    "", "disable-v2", "Disable BitTorrent v2");
 }
