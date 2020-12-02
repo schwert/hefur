@@ -61,8 +61,10 @@ namespace hefur {
             InfoHash info_v1(InfoHash::SHA1, reinterpret_cast<const char *>(desc->info_hash_v1_.bytes_));
             tdb->addTorrent(new Torrent(info_v1, desc->name_, path, desc->length_));
 
-            InfoHash info_v2(InfoHash::SHA256, reinterpret_cast<const char *>(desc->info_hash_v2_.bytes_));
-            tdb->addTorrent(new Torrent(info_v2, desc->name_, path, desc->length_));
+            if (!DISABLE_V2) {
+              InfoHash info_v2(InfoHash::SHA256, reinterpret_cast<const char *>(desc->info_hash_v2_.bytes_));
+              tdb->addTorrent(new Torrent(info_v2, desc->name_, path, desc->length_));
+            }
          }
          return true;
       });
