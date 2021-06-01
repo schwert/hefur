@@ -103,6 +103,11 @@ namespace hefur
     "HTTP header to parse ip from when behind a reverse proxy",
     "X-Real-IP");
 
+   const std::string & REVERSE_PROXY_PROTO_HEADER = *mo::addOption<std::string>(
+      "", "reverse-proxy-proto-header",
+      "HTTP header to parse protocol when behind a reverse proxy (i.e. https -> http)",
+      "X-Forwarded-Proto");
+
   const std::string & REVERSE_PROXY_FROM = *mo::addOption<std::string>(
     "", "reverse-proxy-from",
     "IP to allow ip parsing from for reverse proxy, '0.0.0.0' or '::' to allow from all",
