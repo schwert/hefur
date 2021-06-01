@@ -29,7 +29,15 @@ namespace hefur {
       HttpServer::commonDict(dict);
       dict.append("body", tpl_body);
       dict.append("title", "Torrents");
-      dict.append("tracker_http", mf::str("http://%v:%v/announce", request.host(), request.port()));
+
+      std::string proto = "http";
+      if (!REVERSE_PROXY_PROTO_HEADER.empty()) {
+         auto headers = request.unparsedHeaders();
+         auto protoHeader = headers.find(REVERSE_PROXY_PROTO_HEADER);
+         if (protoHeader != headers.end())
+            proto = protoHeader->second;
+      }
+      dict.append("tracker_http", mf::str("%s://%v:%v/announce", proto, request.host(), request.port()));
       if (UDP_PORT)
          dict.append("tracker_udp", mf::str("udp://%v:%v", request.host(), UDP_PORT));
 

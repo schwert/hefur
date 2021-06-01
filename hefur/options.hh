@@ -28,5 +28,6 @@ namespace hefur {
    extern const std::string &CONTROL_SOCKET;
    extern const std::string &BIND_ADDR;
    extern const std::string &REVERSE_PROXY_HEADER;
+   extern const std::string &REVERSE_PROXY_PROTO_HEADER;
    extern const std::string &REVERSE_PROXY_FROM;
 } // namespace hefur
