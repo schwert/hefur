@@ -30,21 +30,15 @@ bool AnnounceHandler::handle(mh::RequestReader &request, mh::ResponseWriter &res
    // is provided
    auto query_it = request.query().find("numwant");
    if (query_it == request.query().end())
-      rq->num_want_ = 50;
-   else {
-      rq->num_want_ = atoi(query_it->second.c_str());
-      // The peer don't need more than 50 peers, so 100
-      // is more than enough. It can still try to use PEX
-      // to get more peers.
-      if (rq->num_want_ > 100)
-         rq->num_want_ = 100;
-   }
+      rq->num_want_ = MIN_NUMWANT;
+   else
+      rq->num_want_ = std::min<int>(std::atoi(query_it->second.c_str()), MAX_NUMWANT);
 
    bool compact = request.query().count("compact");
    rq->event_ = AnnounceRequest::parseEvent(request.queryGet("event").data());
-   rq->downloaded_ = atoll(request.queryGet("downloaded").c_str());
-   rq->uploaded_ = atoll(request.queryGet("uploaded").c_str());
-   rq->left_ = atoll(request.queryGet("left").c_str());
+   rq->downloaded_ = std::atoll(request.queryGet("downloaded").c_str());
+   rq->uploaded_ = std::atoll(request.queryGet("uploaded").c_str());
+   rq->left_ = std::atoll(request.queryGet("left").c_str());
    rq->skip_ipv6_ = false;
 
    // Check for proxy

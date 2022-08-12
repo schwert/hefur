@@ -80,8 +80,8 @@ namespace hefur {
          return response;
       }
 
-      if (request->num_want_ > 100)
-         request->num_want_ = 100;
+      // correct numwant option to intended borders
+      request->num_want_ = std::clamp<int>(request->num_want_, MIN_NUMWANT, MAX_NUMWANT);
 
       for (auto it = timeouts_.rbegin(); it != timeouts_.rend(); ++it) {
          if (response->addrs_.size() >= request->num_want_)
@@ -112,6 +112,9 @@ namespace hefur {
          else
             --leechers_;
       }
+
+      assert(seeders_ >= 0);
+      assert(leechers_ >= 0);
 
       if (!peer)
          peer = new Peer;
@@ -144,6 +147,9 @@ namespace hefur {
          --seeders_;
       else
          --leechers_;
+
+      assert(seeders_ >= 0);
+      assert(leechers_ >= 0);
 
       timeouts_.erase(peer);
       peers_.erase(peer);
